@@ -2,7 +2,7 @@
 Arduino program for control cnc with dc motors and rotation encoders
 
 
-#Comunication protocol
+Comunication protocol:
 	Speed: 9600 bot
 	Package: 
 		[[type] [x] [y] [z] [check_sum]] 
@@ -14,7 +14,7 @@ Arduino program for control cnc with dc motors and rotation encoders
 			"0 10 30 40 41"
 		
 
-#Version 0.0.1
+Version 0.0.1:
 	Packages queue 					 - implemented
 	Sensor controll via interruption - implemented (X only)
 	
