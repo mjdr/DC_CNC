@@ -11,7 +11,7 @@ package;
 
 void executeCommand(package*);
 void printPackage(package*);
-int checkPackage(package*);
+bool checkPackage(package*);
 int check_sum(package*);
 
 #endif

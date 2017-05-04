@@ -1,7 +1,7 @@
 
 #include "cnc.h"
 //#define TESTS
-//#define DEBUG
+#define DEBUG
 
 
 #ifdef TESTS
