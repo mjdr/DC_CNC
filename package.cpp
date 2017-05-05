@@ -1,18 +1,31 @@
 
 #include "cnc.h"
 
+#define TYPE_ABSOLUTE 0
+#define TYPE_RELATIVE 1
 
 
-
-void executeCommand(package* p){
+void executePackage(package* p){
 
   #ifdef DEBUG
   Serial.print("Execute: ");
   printPackage(p);
   #endif
+
+  if(p->type == TYPE_ABSOLUTE){
+    setupMoveXBy(p->x - state.x);
+    setupMoveYBy(p->y - state.y);
+    move();
+  }
+  else if(p->type == TYPE_RELATIVE){
+    setupMoveXBy(p->x);
+    setupMoveYBy(p->y);
+    move();
+  }
+  else{ 
+    Serial.println("Package type not defined!");
+  }
   
-  setupMoveX(p->x);
-  move();
 }
 
 void printPackage(package* p) {

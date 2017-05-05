@@ -9,7 +9,7 @@ typedef struct {
 }
 package;
 
-void executeCommand(package*);
+void executePackage(package*);
 void printPackage(package*);
 bool checkPackage(package*);
 int check_sum(package*);

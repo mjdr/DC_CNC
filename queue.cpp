@@ -80,7 +80,7 @@ void loadPackage(){
 void exec(){
   if(!isQueueEmpty()){
     package* p = popPackage();
-    executeCommand(p);
+    executePackage(p);
     free(p);
   }
 }
