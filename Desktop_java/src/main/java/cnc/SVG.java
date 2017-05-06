@@ -13,7 +13,7 @@ public class SVG {
 
 		float width = 42; // mm
 		float height = 42; // mm
-		float stroke = 0.5f;
+		float stroke = 0.01f;
 
 		boolean draw = false;
 		StringBuffer sb = new StringBuffer();

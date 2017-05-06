@@ -24,12 +24,12 @@ public class Viewer extends JComponent {
 
 	public static final float widthMM = 42; // mm
 	public static final float heightMM = 42; // mm
-	public static final float drawerSize = .5f; // mm
+	public static final float drawerSize = .05f; // mm
 
 	public static final int WIDTH = (int) (widthMM * pixelPerMM);
 	public static final int HEIGHT = (int) (heightMM * pixelPerMM);
 
-	public static final boolean draw = true;
+	public static final boolean draw = !true;
 
 	private AffineTransform toScreen = AffineTransform.getTranslateInstance(0, 0);
 
