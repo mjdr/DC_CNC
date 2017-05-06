@@ -30,7 +30,6 @@ public class CharPathGenerator {
 	}
 
 	public static List<Command> generate(String string, Font font) {
-		g2d.translate(0, 0);
 		FontRenderContext frc = g2d.getFontRenderContext();
 
 		List<Command> cmds = new ArrayList<>();
@@ -39,7 +38,7 @@ public class CharPathGenerator {
 
 		Shape shape = gv.getOutline();
 
-		PathIterator iter = shape.getPathIterator(AffineTransform.getScaleInstance(1, 1), .1);
+		PathIterator iter = shape.getPathIterator(AffineTransform.getScaleInstance(1, 1), .01);
 
 		boolean draw = false;
 		while (!iter.isDone()) {

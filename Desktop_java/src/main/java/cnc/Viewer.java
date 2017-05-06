@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -14,7 +15,6 @@ import javax.swing.JFrame;
 import cnc.commands.Command;
 import cnc.commands.Draw;
 import cnc.commands.Move;
-import cnc.editor.Object2d;
 
 public class Viewer extends JComponent {
 
@@ -33,10 +33,10 @@ public class Viewer extends JComponent {
 
 	private AffineTransform toScreen = AffineTransform.getTranslateInstance(0, 0);
 
-	private Object2d stage;
+	private List<Command> commands;
 
-	public Viewer(Object2d stage) {
-		this.stage = stage;
+	public Viewer(List<Command> commands) {
+		this.commands = commands;
 
 		JFrame frame = new JFrame("Viewer");
 
@@ -76,7 +76,7 @@ public class Viewer extends JComponent {
 
 		float cx = 0, cy = 0;
 		boolean draw = false;
-		for (Command c : stage.getCommands()) {
+		for (Command c : commands) {
 
 			if (c instanceof Move) {
 				Move m = (Move) c;
@@ -100,9 +100,9 @@ public class Viewer extends JComponent {
 
 		AffineTransform t = new AffineTransform(toScreen);
 
-		t.concatenate(stage.getTransform());
+		// t.concatenate(stage.getTransform());
 
-		g2d.draw(t.createTransformedShape(stage.bound));
+		// g2d.draw(t.createTransformedShape(stage.bound));
 
 	}
 
