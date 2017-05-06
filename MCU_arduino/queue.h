@@ -7,7 +7,7 @@ extern package* queue[MAX_QUEUE_LENGTH];
 extern int currentID;
 
 void queue_init();
-void addPackage(package* p);
+void addPackage(package*);
 bool isQueueFull();
 bool isQueueEmpty();
 package* popPackage();

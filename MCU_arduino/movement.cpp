@@ -82,3 +82,13 @@ void move(){
 }
 
 
+void moveZ(bool st){
+   #ifdef DEBUG
+   if(st)
+    Serial.println("Servo up");
+   else
+    Serial.println("Servo down");
+  #endif
+}
+
+

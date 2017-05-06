@@ -5,10 +5,11 @@
 void movement_init();
 void disableX();
 void updateX();
-void setupMoveXBy(int n);
+void setupMoveXBy(int);
 void disableY();
 void updateY();
-void setupMoveYBy(int n);
+void setupMoveYBy(int);
 void move();
+void moveZ(bool);
 
 #endif
