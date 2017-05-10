@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import cnc.commands.Command;
+import cnc.commands.Draw;
 import cnc.commands.Move;
 import cnc.plotUtils.Transformator;
 
@@ -13,6 +14,7 @@ public abstract class Object2d {
 
 	protected AffineTransform transform;
 	protected AffineTransform projection;
+	protected AffineTransform combiend;
 
 	public Rectangle2D.Float bound;
 
@@ -36,20 +38,20 @@ public abstract class Object2d {
 	public List<Command> getCommands() {
 		List<Command> commands = getRawCommands();
 		updateTransformation();
-		Transformator.apply(transform, commands);
-		Transformator.apply(projection, commands);
+		Transformator.apply(combiend, commands);
 		return commands;
 	}
 
 	public void updateBoundaries() {
-		float minX = Float.MAX_VALUE;
-		float minY = Float.MAX_VALUE;
-		float maxX = Float.MIN_VALUE;
-		float maxY = Float.MIN_VALUE;
+		float minX = 1e5f;
+		float minY = 1e5f;
+		float maxX = 0;
+		float maxY = 0;
 
 		List<Command> commands = getRawCommands();
+		boolean draw = false;
 		for (Command c : commands)
-			if (c instanceof Move) {
+			if (c instanceof Move && draw) {
 				Move m = (Move) c;
 
 				if (m.x < minX)
@@ -62,6 +64,9 @@ public abstract class Object2d {
 					maxY = m.y;
 
 			}
+			else if(c instanceof Draw){
+				draw = ((Draw) c).getValue();
+			}
 		bound.x = minX;
 		bound.y = minY;
 		bound.width = maxX - minX;
@@ -73,26 +78,30 @@ public abstract class Object2d {
 		AffineTransform sc = AffineTransform.getScaleInstance(scale.getX(), scale.getY());
 
 		AffineTransform res = AffineTransform.getScaleInstance(1, 1);
-		res.rotate(rotation, origin.x, origin.y);
-
+		res.rotate(rotation,origin.getX(),origin.getY());
 		transform = res;
 
 		res = AffineTransform.getScaleInstance(1, 1);
 		res.concatenate(sc);
 		res.concatenate(tr);
 		projection = res;
-
+		
+		combiend = new AffineTransform();
+		combiend.concatenate(projection);
+		combiend.concatenate(transform);
 	}
 
 	public void setOriginToCenter() {
 		updateBoundaries();
-		origin.x = bound.width / 2;
-		origin.y = bound.height / 2;
+		origin.x = bound.x + bound.width / 2;
+		origin.y = bound.y + bound.height / 2;
 		updateTransformation();
 	}
 
 	public AffineTransform getTransform() {
-		return transform;
+		
+		
+		return combiend;
 	}
 
 }

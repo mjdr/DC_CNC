@@ -26,5 +26,25 @@ public class CompositeObject2d extends Object2d {
 
 	public void add(Object2d obj) {
 		objects.add(obj);
+		updateBoundaries();
 	}
+	
+	public List<Object2d> getChildren() {
+		return objects;
+	}
+	
+	@Override
+	public void updateBoundaries() {
+		super.updateBoundaries();
+		for(Object2d obj : objects)
+			obj.updateBoundaries();
+	}
+	
+	@Override
+	public void updateTransformation() {
+		super.updateTransformation();
+		for(Object2d obj : objects)
+			obj.updateTransformation();
+	}
+	
 }

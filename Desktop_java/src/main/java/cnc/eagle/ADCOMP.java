@@ -22,7 +22,6 @@ public class ADCOMP {
 
 		setupParams();
 		
-		
 		Builder builder = new Builder();
 
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -60,14 +59,12 @@ public class ADCOMP {
 			builder.draw(draw = false);
 		
 		Point pos = parseCoords(command);
-		
 		builder.move(pos.x * SCALER_STEPS_TO_MM, pos.y * SCALER_STEPS_TO_MM);
 	}
 	private static void processDraw(Builder builder,String command){
 		if (!draw)
 			builder.draw(draw = true);
 		Point pos = parseCoords(command);
-		
 		builder.move(pos.x * SCALER_STEPS_TO_MM, pos.y * SCALER_STEPS_TO_MM);
 	}
 	

@@ -3,39 +3,41 @@ package cnc;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
-import cnc.commands.Command;
 import cnc.eagle.ADCOMP;
 import cnc.editor.CompositeObject2d;
-import cnc.editor.Object2d;
 import cnc.editor.VectorObject2d;
+import cnc.tools.ObjectViewer;
+import cnc.tools.SVG;
 
 public class App {
 
 	public static void main(String[] args) throws IOException {
 
-		List<Command> commands = new ArrayList<>();
-
+		
 		CompositeObject2d stage = new CompositeObject2d();
-
-		VectorObject2d pcb = ADCOMP.load(new File("res/data.adcomp"));
 		
-		//System.out.println("Size:" + pcb.getCommands().size());
+		VectorObject2d pcb = null;
 		
-
-		//pcb.setOriginToCenter();
-		// pcb.rotation = 3.141592f / 4;
-		//pcb.position.y = 10;
-		//pcb.position.x = -5;
-
-		stage.add(pcb);
-
-		commands.addAll(stage.getCommands());
+		for(int i = 0;i < 6;i++){
+		
+			pcb = ADCOMP.load(new File("res/data.adcomp"));
+			
+	
+			pcb.setOriginToCenter();
+			pcb.position.x = -2.7f + 4.1f*i;
+			pcb.position.y = 6.f;
+			
+			pcb.updateTransformation();
+	
+			stage.add(pcb);
+		}
+		
+		
+		
 
 		PrintWriter svgImage = new PrintWriter("res/image.svg");
-		svgImage.println(SVG.getPath(commands, true));
+		svgImage.println(SVG.getPath(stage.getCommands(), true));
 		svgImage.close();
 
 		//List<cnc.data.Package> packages = commands.stream().map((c) -> c.toPackage()).collect(Collectors.toList());
@@ -48,7 +50,9 @@ public class App {
 		// e.printStackTrace();
 		// }
 
-		new Viewer(stage);
+
+		new ObjectViewer(stage);
+		//new PathViewer(Optimizer.optiomaze(stage.getCommands()));
 
 	}
 }

@@ -1,8 +1,9 @@
-package cnc;
+package cnc.tools;
 
 import java.util.List;
 import java.util.Locale;
 
+import cnc.Config;
 import cnc.commands.Command;
 import cnc.commands.Draw;
 import cnc.commands.Move;
@@ -11,9 +12,9 @@ public class SVG {
 
 	public static String getPath(List<Command> commands, boolean hidden) {
 
-		float width = 42; // mm
-		float height = 42; // mm
-		float stroke = 0.01f;
+		float width = Config.widthMM; // mm
+		float height = Config.heightMM; // mm
+		float stroke = Config.drawerSize;
 
 		boolean draw = false;
 		StringBuffer sb = new StringBuffer();
@@ -38,7 +39,7 @@ public class SVG {
 			else if (c instanceof Move) {
 				Move m = (Move) c;
 
-				sb.append(String.format(Locale.ENGLISH, "\t\t%s %f %f\n", draw ? "L" : "M", m.x, 42 - m.y));
+				sb.append(String.format(Locale.ENGLISH, "\t\t%s %f %f\n", draw ? "L" : "M", m.x, height - m.y));
 			}
 		}
 
@@ -55,7 +56,7 @@ public class SVG {
 			else if (c instanceof Move) {
 				Move m = (Move) c;
 
-				sb.append(String.format(Locale.ENGLISH, "\t\t%s %f %f\n", draw ? "M" : "L", m.x, 42 - m.y).replace(",",
+				sb.append(String.format(Locale.ENGLISH, "\t\t%s %f %f\n", draw ? "M" : "L", m.x, height - m.y).replace(",",
 						"."));
 			}
 		}

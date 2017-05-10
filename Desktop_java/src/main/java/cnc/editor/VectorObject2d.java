@@ -1,6 +1,7 @@
 package cnc.editor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cnc.commands.Command;
 
@@ -14,7 +15,7 @@ public class VectorObject2d extends Object2d {
 
 	@Override
 	protected List<Command> getRawCommands() {
-		return commands;
+		return commands.stream().map((c)->c.copy()).collect(Collectors.toList());
 	}
 
 }

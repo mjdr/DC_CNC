@@ -25,4 +25,9 @@ public class Draw extends Command {
 		return "draw("+value+")";
 	}
 
+	@Override
+	public Draw copy() {
+		return new Draw(value);
+	}
+
 }

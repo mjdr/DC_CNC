@@ -24,4 +24,9 @@ public class Move extends Command {
 		return String.format("move(%.3f,%.3f)",x,y);
 	}
 
+	@Override
+	public Command copy() {
+		return new Move(x,y);
+	}
+
 }
