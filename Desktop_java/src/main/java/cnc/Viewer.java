@@ -1,13 +1,11 @@
 package cnc;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
-import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -15,6 +13,7 @@ import javax.swing.JFrame;
 import cnc.commands.Command;
 import cnc.commands.Draw;
 import cnc.commands.Move;
+import cnc.editor.Object2d;
 
 public class Viewer extends JComponent {
 
@@ -33,10 +32,10 @@ public class Viewer extends JComponent {
 
 	private AffineTransform toScreen = AffineTransform.getTranslateInstance(0, 0);
 
-	private List<Command> commands;
+	private Object2d object;
 
-	public Viewer(List<Command> commands) {
-		this.commands = commands;
+	public Viewer(Object2d object) {
+		this.object = object;
 
 		JFrame frame = new JFrame("Viewer");
 
@@ -63,20 +62,35 @@ public class Viewer extends JComponent {
 
 		Graphics2D g2d = (Graphics2D) g;
 
+		setupGraphicsStuff(g2d);
+		drawBackground(g2d);
+		drawCommands(g2d);
+
+		drawBound(g2d);
+
+	}
+	
+	private void drawBound(Graphics2D g2d){
+		
+	}
+	
+	private void drawBackground(Graphics2D g2d){
+		g2d.setColor(new Color(51, 51, 51));
+		g2d.fillRect(0, 0, WIDTH, HEIGHT);
+	}
+	
+	private void setupGraphicsStuff(Graphics2D g2d){
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-		//g2d.setStroke(new BasicStroke(drawerSize * pixelPerMM));
-
-		g2d.setColor(new Color(51, 51, 51));
-		g2d.fillRect(0, 0, WIDTH, HEIGHT);
-
+	}
+	private void drawCommands(Graphics2D g2d){
 		float cx = 0, cy = 0;
 		boolean draw = false;
-		for (Command c : commands) {
+		for (Command c : object.getCommands()) {
 
 			if (c instanceof Move) {
 				Move m = (Move) c;
@@ -95,16 +109,8 @@ public class Viewer extends JComponent {
 			} else throw new RuntimeException("Class " + c.getClass().getName() + " not defined!");
 
 		}
-
-		g2d.setStroke(new BasicStroke(1));
-
-		//AffineTransform t = new AffineTransform(toScreen);
-
-		// t.concatenate(stage.getTransform());
-
-		// g2d.draw(t.createTransformedShape(stage.bound));
-
 	}
+	
 	
 	private void drawLine(Graphics2D g,float r, float x1,float y1,float x2,float y2){
 		float d = (float)Math.hypot(x2 - x1, y2 - y1);

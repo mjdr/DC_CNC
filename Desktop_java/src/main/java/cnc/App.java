@@ -48,7 +48,7 @@ public class App {
 		// e.printStackTrace();
 		// }
 
-		new Viewer(commands);
+		new Viewer(stage);
 
 	}
 }
