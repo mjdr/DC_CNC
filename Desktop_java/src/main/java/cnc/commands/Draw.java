@@ -20,5 +20,9 @@ public class Draw extends Command {
 	public boolean getValue() {
 		return value;
 	}
+	@Override
+	public String toString() {
+		return "draw("+value+")";
+	}
 
 }

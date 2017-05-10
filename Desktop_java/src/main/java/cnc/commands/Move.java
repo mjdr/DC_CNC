@@ -18,5 +18,10 @@ public class Move extends Command {
 				(short) (y / STEP_SIZE),
 				(short) 1);
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("move(%.3f,%.3f)",x,y);
+	}
 
 }
