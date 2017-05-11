@@ -1,4 +1,4 @@
-package cnc.tools;
+package cnc.editor;
 
 import static cnc.Config.drawerSize;
 import static cnc.Config.pixelPerMM;
@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -21,8 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import cnc.editor.CompositeObject2d;
-import cnc.editor.Object2d;
+import cnc.objects2d.CompositeObject2d;
+import cnc.objects2d.Object2d;
+import cnc.tools.Optimizer;
 
 @SuppressWarnings("serial")
 public class ObjectViewer extends Viewer{
@@ -32,17 +32,20 @@ public class ObjectViewer extends Viewer{
 	private Object2d current;
 	private Object2d drag;
 	private Point dragPointOnScreen;
-	private Point2D.Float dragStart ;
+	private Point2D.Float dragStart;
+	private PathViewer pathViewer;
 	
 	
 	public ObjectViewer(Object2d object) {
 		super(object.getCommands());
+		pathViewer = new PathViewer(commands);
 		this.object = object;
 		boxes = new HashMap<Path2D, Object2d>();
 		dragStart = new Point2D.Float();
 		
 		updateStage();
 		
+		openWindow();
 
 	}
 	
@@ -88,7 +91,12 @@ public class ObjectViewer extends Viewer{
 		if(code == KeyEvent.VK_R && current != null){
 			current.rotation += 3.141592f/2;
 			updateStage();
+			updatePathViewer();
 		}
+		if(code == KeyEvent.VK_P){
+			pathViewer.openWindow();
+		}
+		
 	}
 
 
@@ -107,8 +115,11 @@ public class ObjectViewer extends Viewer{
 
 
 	protected void mouseReleased() {
-		drag = null;
-		updateBoxes();
+		if(drag != null){
+			updateBoxes();
+			updatePathViewer();
+			drag = null;
+		}
 	}
 
 
@@ -123,6 +134,11 @@ public class ObjectViewer extends Viewer{
 			
 	}
 	
+	private void updatePathViewer(){
+		pathViewer.setCommands(Optimizer.optiomaze(object.getCommands()));
+		pathViewer.update();
+	}
+	
 	private void updateStage(){
 		object.updateTransformation();
 		object.updateBoundaries();
@@ -131,11 +147,6 @@ public class ObjectViewer extends Viewer{
 		repaint();
 	}
 
-
-	@Override
-	protected void tick(ActionEvent e){
-		
-	}
 	private void mouseMoved(int x, int y) {
 		
 		for(Entry<Path2D, Object2d> entry : boxes.entrySet()){

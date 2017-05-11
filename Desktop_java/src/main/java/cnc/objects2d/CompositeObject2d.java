@@ -1,4 +1,4 @@
-package cnc.editor;
+package cnc.objects2d;
 
 import java.util.ArrayList;
 import java.util.List;

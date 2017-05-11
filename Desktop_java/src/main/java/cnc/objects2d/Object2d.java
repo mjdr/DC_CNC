@@ -1,4 +1,4 @@
-package cnc.editor;
+package cnc.objects2d;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -12,6 +12,8 @@ import cnc.plotUtils.Transformator;
 
 public abstract class Object2d {
 
+	
+	protected Object2d parent;
 	protected AffineTransform transform;
 	protected AffineTransform projection;
 	protected AffineTransform combiend;
@@ -26,6 +28,10 @@ public abstract class Object2d {
 	protected abstract List<Command> getRawCommands();
 
 	public Object2d() {
+		this(null);
+	}
+	
+	public Object2d(Object2d parent) {
 		transform = AffineTransform.getTranslateInstance(0, 0);
 		projection = AffineTransform.getTranslateInstance(0, 0);
 		bound = new Rectangle2D.Float(0, 0, 0, 0);
@@ -34,6 +40,15 @@ public abstract class Object2d {
 		scale = new Point2D.Float(1, 1);
 		rotation = 0;
 	}
+	
+	public void setParent(Object2d parent) {
+		this.parent = parent;
+	}
+	
+	public Object2d getParent() {
+		return parent;
+	}
+	
 
 	public List<Command> getCommands() {
 		List<Command> commands = getRawCommands();
@@ -71,6 +86,9 @@ public abstract class Object2d {
 		bound.y = minY;
 		bound.width = maxX - minX;
 		bound.height = maxY - minY;
+
+		if(parent != null)
+			parent.updateBoundaries();
 	}
 
 	public void updateTransformation() {
@@ -89,18 +107,25 @@ public abstract class Object2d {
 		combiend = new AffineTransform();
 		combiend.concatenate(projection);
 		combiend.concatenate(transform);
+		if(parent != null)
+			parent.updateTransformation();
 	}
 
 	public void setOriginToCenter() {
 		updateBoundaries();
+		updateTransformation();
+		
+		
+		if(parent != null)
+			parent.updateTransformation();
 		origin.x = bound.x + bound.width / 2;
 		origin.y = bound.y + bound.height / 2;
-		updateTransformation();
+		
+		if(parent != null)
+			updateTransformation();
 	}
-
+	
 	public AffineTransform getTransform() {
-		
-		
 		return combiend;
 	}
 

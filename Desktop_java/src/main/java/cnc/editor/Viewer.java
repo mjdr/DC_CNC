@@ -1,4 +1,4 @@
-package cnc.tools;
+package cnc.editor;
 
 import static cnc.Config.drawerSize;
 import static cnc.Config.heightMM;
@@ -9,13 +9,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 import cnc.commands.Command;
 import cnc.commands.Draw;
@@ -27,8 +25,8 @@ public abstract class Viewer extends JComponent {
 	public static final int S_WIDTH = (int) (widthMM * pixelPerMM);
 	public static final int S_HEIGHT = (int) (heightMM * pixelPerMM);
 
-	protected Timer timer;
 	protected AffineTransform toScreen = AffineTransform.getTranslateInstance(0, 0);
+	protected JFrame frame = new JFrame("Viewer");
 
 	protected List<Command> commands;
 
@@ -41,24 +39,21 @@ public abstract class Viewer extends JComponent {
 		toScreen = (AffineTransform.getScaleInstance(pixelPerMM, -pixelPerMM));
 		toScreen.concatenate(AffineTransform.getTranslateInstance(0, -S_HEIGHT / pixelPerMM));
 		
-		timer = new Timer(20, this::tick);
 		
-		timer.start();
 
 	}
 	
-	protected void tick(ActionEvent e){
-		repaint();
+	protected void openWindow(){
+		frame.pack();
+		frame.setVisible(true);
 	}
 	
 	private void setupFrame(){
-		JFrame frame = new JFrame("Viewer");
+		
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().add(this);
-		frame.pack();
-		frame.setVisible(true);
 	}
 	
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.awt.geom.Rectangle2D;
 
 import cnc.commands.Builder;
+import cnc.objects2d.VectorObject2d;
 
 public class BoundTest {
 	

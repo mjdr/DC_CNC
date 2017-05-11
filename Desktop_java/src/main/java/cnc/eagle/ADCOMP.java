@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import cnc.commands.Builder;
-import cnc.editor.VectorObject2d;
+import cnc.objects2d.VectorObject2d;
 
 public class ADCOMP {
 	

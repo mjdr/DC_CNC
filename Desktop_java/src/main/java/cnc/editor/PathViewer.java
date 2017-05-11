@@ -1,9 +1,10 @@
-package cnc.tools;
+package cnc.editor;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
 import java.util.List;
+
+import javax.swing.JFrame;
 
 import cnc.commands.Command;
 
@@ -15,13 +16,20 @@ public class PathViewer extends Viewer {
 	public PathViewer(List<Command> commands) {
 		super(commands);
 		this.commands = commands;
+		
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
 	}
 	
-	@Override
-	protected void tick(ActionEvent e){
-		//repaint();
+	public void update(){
+		repaint();
 	}
+	
+	public void setCommands(List<Command> commands) {
+		this.commands = commands;
+	}
+	
+	
 	
 	
 
