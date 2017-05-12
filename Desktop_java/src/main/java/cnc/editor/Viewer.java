@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -18,29 +19,32 @@ import javax.swing.JFrame;
 import cnc.commands.Command;
 import cnc.commands.Draw;
 import cnc.commands.Move;
+import cnc.objects2d.CompositeObject2d;
+import cnc.objects2d.Object2d;
 
 @SuppressWarnings("serial")
 public abstract class Viewer extends JComponent {	
 	
 	public static final int S_WIDTH = (int) (widthMM * pixelPerMM);
 	public static final int S_HEIGHT = (int) (heightMM * pixelPerMM);
+	public static final AffineTransform toScreen;
+	
+	
 
-	protected AffineTransform toScreen = AffineTransform.getTranslateInstance(0, 0);
+	protected ObjectController controller;
 	protected JFrame frame = new JFrame("Viewer");
-
 	protected List<Command> commands;
 
-	public Viewer(List<Command> commands) {
-		
-		this.commands = commands;
-		
-		setupFrame();
-
+	static {
 		toScreen = (AffineTransform.getScaleInstance(pixelPerMM, -pixelPerMM));
 		toScreen.concatenate(AffineTransform.getTranslateInstance(0, -S_HEIGHT / pixelPerMM));
+	}
+	
+	public Viewer(ObjectController controller) {
+		this.controller = controller;
+		this.commands = controller.getRoot().getCommands();
 		
-		
-
+		setupFrame();
 	}
 	
 	protected void openWindow(){
@@ -152,6 +156,41 @@ public abstract class Viewer extends JComponent {
 			g.fillOval((int)(cx - r), (int)(cy - r), (int)(2*r), (int)(2*r));
 
 		}
+		
+	}
+	protected void drawAllBounds(Graphics2D g2d, Object2d object2d){
+		drawBound(g2d, object2d);
+		if(!(object2d instanceof CompositeObject2d))
+			return;
+		for(Object2d obj : ((CompositeObject2d)object2d).getChildren())
+			drawAllBounds(g2d, obj);
+		
+	}
+	
+	protected void drawBound(Graphics2D g2d, Object2d object2d){
+
+		
+		g2d.setColor(new Color(1, 1, 1, .1f));
+		AffineTransform t = new AffineTransform(toScreen);
+
+		t.concatenate(object2d.getTransform());
+		
+		Rectangle2D.Float b = object2d.bound;
+		Rectangle2D.Float rect = new Rectangle2D.Float(b.x - drawerSize/2, b.y - drawerSize/2, b.width + drawerSize, b.height + drawerSize);
+		
+		g2d.fill(t.createTransformedShape(rect));
+		if(object2d == controller.getSelectedObject())
+			g2d.setColor(Color.red);
+		else if(object2d == controller.getDragObject())
+			g2d.setColor(Color.green);
+		
+		else
+			g2d.setColor(Color.white);
+		
+		g2d.draw(t.createTransformedShape(rect));
+		
+		
+		
 		
 	}
 

@@ -10,6 +10,7 @@ public class VectorObject2d extends Object2d {
 	protected List<Command> commands;
 
 	public VectorObject2d(List<Command> commands) {
+		super(null);
 		this.commands = commands;
 	}
 

@@ -26,6 +26,12 @@ public class CompositeObject2d extends Object2d {
 
 	public void add(Object2d obj) {
 		objects.add(obj);
+		obj.setParent(this);
+		updateBoundaries();
+	}
+	
+	public void remove(Object2d obj){
+		objects.remove(obj);
 		updateBoundaries();
 	}
 	

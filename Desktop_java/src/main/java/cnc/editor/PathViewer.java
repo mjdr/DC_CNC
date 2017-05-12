@@ -13,11 +13,11 @@ public class PathViewer extends Viewer {
 
 	public static final boolean isDrawPath = true;
 
-	public PathViewer(List<Command> commands) {
-		super(commands);
-		this.commands = commands;
+	public PathViewer(ObjectController controller) {
+		super(controller);
 		
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setTitle("Object Viewer");
 
 	}
 	

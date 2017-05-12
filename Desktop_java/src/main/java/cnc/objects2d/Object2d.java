@@ -17,6 +17,7 @@ public abstract class Object2d {
 	protected AffineTransform transform;
 	protected AffineTransform projection;
 	protected AffineTransform combiend;
+	protected boolean scalable = true;
 
 	public Rectangle2D.Float bound;
 
@@ -87,8 +88,6 @@ public abstract class Object2d {
 		bound.width = maxX - minX;
 		bound.height = maxY - minY;
 
-		if(parent != null)
-			parent.updateBoundaries();
 	}
 
 	public void updateTransformation() {
@@ -100,15 +99,14 @@ public abstract class Object2d {
 		transform = res;
 
 		res = AffineTransform.getScaleInstance(1, 1);
-		res.concatenate(sc);
+		if(scalable)
+			res.concatenate(sc);
 		res.concatenate(tr);
 		projection = res;
 		
 		combiend = new AffineTransform();
 		combiend.concatenate(projection);
 		combiend.concatenate(transform);
-		if(parent != null)
-			parent.updateTransformation();
 	}
 
 	public void setOriginToCenter() {
@@ -127,6 +125,13 @@ public abstract class Object2d {
 	
 	public AffineTransform getTransform() {
 		return combiend;
+	}
+	
+	public boolean isScalable() {
+		return scalable;
+	}
+	public void setScalable(boolean scalable) {
+		this.scalable = scalable;
 	}
 
 }
