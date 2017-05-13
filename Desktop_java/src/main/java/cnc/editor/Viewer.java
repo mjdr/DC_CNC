@@ -135,7 +135,7 @@ public abstract class Viewer extends JComponent {
 	}
 	private void drawLine(Graphics2D g,float r, float x1,float y1,float x2,float y2){
 		
-		final float eps = 6; 
+		final float eps = r/2; 
 		
 		float d = (float)Math.hypot(x2 - x1, y2 - y1);
 		if(d < eps){

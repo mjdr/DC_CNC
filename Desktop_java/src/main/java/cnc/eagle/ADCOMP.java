@@ -40,6 +40,7 @@ public class ADCOMP {
 	
 	private static void processCommand(Builder builder,String command){
 		switch (command.charAt(0)) {
+			case 'W':break;
 			case 'C':break;
 			case 'M':
 				processMove(builder, command);

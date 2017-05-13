@@ -28,6 +28,12 @@ public class Optimizer {
 				i--;
 			}
 		}
+		
+		
+		while(!draw && commands.get(commands.size()-1) instanceof Move){
+			commands.remove(commands.size()-1);
+		}
+		
 		return commands;
 	}
 }

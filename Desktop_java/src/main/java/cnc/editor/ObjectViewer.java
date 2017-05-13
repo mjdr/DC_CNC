@@ -183,7 +183,7 @@ public class ObjectViewer extends Viewer implements ActionListener{
 				
 				break;
 			case "Save as packets":
-				
+				controller.saveAsPackets();
 				break;
 			case "Save as svg":
 				
@@ -199,7 +199,6 @@ public class ObjectViewer extends Viewer implements ActionListener{
 				break;
 			case "Rotate":
 				controller.rotateSelectedObject();
-				
 				break;
 			case "Delete":
 				controller.deleteSelectedObject();

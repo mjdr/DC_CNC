@@ -9,8 +9,10 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import cnc.eagle.ADCOMP;
 import cnc.eagle.PCBPreparer;
@@ -18,6 +20,8 @@ import cnc.objects2d.CompositeObject2d;
 import cnc.objects2d.Object2d;
 import cnc.objects2d.VectorObject2d;
 import cnc.tools.Optimizer;
+import cnc.utils.IOUtils;
+import sun.nio.ch.IOUtil;
 
 public class ObjectController {
 	private ObjectViewer objectViewer;
@@ -171,6 +175,17 @@ public class ObjectController {
 	public void importLastFile() throws IOException, RuntimeException {
 		if(lastImportedFile != null)
 			importFile(lastImportedFile);
+		
+	}
+
+	public void saveAsPackets() {
+		List<cnc.data.Package> packages = root.getCommands().stream().map((c)->c.toPackage()).collect(Collectors.toList());
+		
+		try {
+			IOUtils.writePackagesAsText(System.out, packages);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
