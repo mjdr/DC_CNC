@@ -25,8 +25,12 @@ public class Builder {
 		commands.add(new Draw(value));
 		return this;
 	}
+	public Builder commands(List<Command> commands){
+		this.commands.addAll(commands);
+		return this;
+	}
 
-	public List<Command> biuld() {
+	public List<Command> build() {
 		return commands;
 	}
 

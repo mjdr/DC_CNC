@@ -17,7 +17,7 @@ public class BoundTest {
 		
 		builder.draw(true).move(1, 2).move(12,30);
 		
-		VectorObject2d object2d = new VectorObject2d(builder.biuld());
+		VectorObject2d object2d = new VectorObject2d(builder.build());
 		
 		object2d.updateBoundaries();
 		Rectangle2D b = object2d.bound;
@@ -37,7 +37,7 @@ public class BoundTest {
 		
 		builder.draw(true).move(1, 2).move(12,30).draw(false).move(100, 200);
 		
-		VectorObject2d object2d = new VectorObject2d(builder.biuld());
+		VectorObject2d object2d = new VectorObject2d(builder.build());
 		
 		object2d.updateBoundaries();
 		Rectangle2D b = object2d.bound;

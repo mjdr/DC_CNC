@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import cnc.eagle.ADCOMP;
-import cnc.eagle.PCBPreparer;
+import cnc.files.PCBPreparer;
+import cnc.files.eagle.ADCOMP;
 import cnc.objects2d.CompositeObject2d;
 import cnc.objects2d.Object2d;
 import cnc.objects2d.VectorObject2d;

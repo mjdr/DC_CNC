@@ -4,8 +4,8 @@ struct s state;
 
 
 void movement_init(){
-  attachInterrupt(digitalPinToInterrupt(2),updateX,RISING);
-  attachInterrupt(digitalPinToInterrupt(3),updateY,RISING);
+  attachInterrupt(2,updateX,RISING);
+  attachInterrupt(3,updateY,RISING);
 }
 
 void disableX(){

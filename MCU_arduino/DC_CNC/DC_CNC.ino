@@ -1,5 +1,3 @@
-
-
 #include "cnc.h"
 
 void setup() {

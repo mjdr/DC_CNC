@@ -1,4 +1,4 @@
-package cnc.eagle;
+package cnc.files.eagle;
 
 import java.awt.Point;
 import java.io.BufferedReader;
@@ -31,7 +31,7 @@ public class ADCOMP {
 				processCommand(builder, command);
 		}
 
-		return new VectorObject2d(builder.biuld());
+		return new VectorObject2d(builder.build());
 	}
 	
 	private static void setupParams(){

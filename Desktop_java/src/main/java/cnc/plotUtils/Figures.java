@@ -28,7 +28,7 @@ public class Figures {
 			builder.move(points[i]);
 
 		builder.draw(false);
-		return builder.biuld();
+		return builder.build();
 
 	}
 
@@ -55,7 +55,7 @@ public class Figures {
 
 		builder.move(center.x + radius, center.y).draw(false);
 
-		return builder.biuld();
+		return builder.build();
 
 	}
 

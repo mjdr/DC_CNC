@@ -1,4 +1,4 @@
-package cnc.eagle;
+package cnc.files;
 
 import cnc.Config;
 import cnc.objects2d.VectorObject2d;
