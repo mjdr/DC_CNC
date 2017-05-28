@@ -15,13 +15,15 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import cnc.files.PCBPreparer;
-import cnc.files.eagle.ADCOMP;
+import cnc.files.loaders.ADCOMPLoader;
+import cnc.files.loaders.HPGLLoader;
+import cnc.files.loaders.ImageLoader;
+import cnc.files.loaders.ObjectLoader;
 import cnc.objects2d.CompositeObject2d;
 import cnc.objects2d.Object2d;
 import cnc.objects2d.VectorObject2d;
-import cnc.tools.Optimizer;
+import cnc.tools.opt.Optimizer;
 import cnc.utils.IOUtils;
-import sun.nio.ch.IOUtil;
 
 public class ObjectController {
 	private ObjectViewer objectViewer;
@@ -35,6 +37,9 @@ public class ObjectController {
 	private Point2D.Float dragStart;
 	private PathViewer pathViewer;
 	private File lastImportedFile;
+	private FileType lastImportedFileType;
+	
+	private Map<FileType, ObjectLoader> loaders = new HashMap<>();
 	
 	public void init(CompositeObject2d obj){
 		root = obj;
@@ -44,7 +49,7 @@ public class ObjectController {
 		dragStart = new Point2D.Float();
 		
 		updateStage();
-		
+		initLoaders();
 		
 		
 		objectViewer.openWindow();
@@ -52,6 +57,13 @@ public class ObjectController {
 		
 	}
 	
+	private void initLoaders() {
+		loaders.put(FileType.ADCOMP, new ADCOMPLoader());
+		loaders.put(FileType.HPGL, new HPGLLoader());
+		loaders.put(FileType.BIN_IMAGE, new ImageLoader());
+		
+	}
+
 	public Object2d getRoot() {
 		return root;
 	}
@@ -153,13 +165,14 @@ public class ObjectController {
 		objectViewer.update();
 	}
 	
-	public void importFile(File file) throws IOException, RuntimeException {
-		VectorObject2d obj = ADCOMP.load(file);
+	public void importFile(File file, FileType type) throws IOException, RuntimeException {
+		VectorObject2d obj = loaders.get(type).load(file);
 		PCBPreparer.prepare(obj);
 		root.add(obj);
 		updateStage();
 		updatePathViewer();
 		lastImportedFile = file;
+		lastImportedFileType = type;
 	}
 	
 	public void deleteSelectedObject(){
@@ -174,7 +187,7 @@ public class ObjectController {
 
 	public void importLastFile() throws IOException, RuntimeException {
 		if(lastImportedFile != null)
-			importFile(lastImportedFile);
+			importFile(lastImportedFile,lastImportedFileType);
 		
 	}
 

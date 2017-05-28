@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import cnc.tools.opt.Path.PathPoint;
+
 public class Builder {
 
 	private List<Command> commands;
@@ -13,6 +15,9 @@ public class Builder {
 	}
 
 	public Builder move(Point2D.Float point) {
+		return move(point.x, point.y);
+	}
+	public Builder move(PathPoint point) {
 		return move(point.x, point.y);
 	}
 

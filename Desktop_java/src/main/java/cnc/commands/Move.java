@@ -1,8 +1,8 @@
 package cnc.commands;
 
-public class Move extends Command {
+import cnc.Config;
 
-	public static final float STEP_SIZE = 0.2f; // mm
+public class Move extends Command {
 
 	public float x, y;
 
@@ -14,8 +14,8 @@ public class Move extends Command {
 	@Override
 	public cnc.data.Package toPackage() {
 		return new cnc.data.Package(cnc.data.Package.TYPE_ABSOLUTE,
-				(short) (x / STEP_SIZE),
-				(short) (y / STEP_SIZE),
+				(short) (x / Config.STEP_SIZE),
+				(short) (y / Config.STEP_SIZE),
 				(short) 1);
 	}
 	

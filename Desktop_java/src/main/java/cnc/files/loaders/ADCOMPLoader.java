@@ -1,4 +1,4 @@
-package cnc.files.eagle;
+package cnc.files.loaders;
 
 import java.awt.Point;
 import java.io.BufferedReader;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import cnc.commands.Builder;
 import cnc.objects2d.VectorObject2d;
 
-public class ADCOMP {
+public class ADCOMPLoader extends ObjectLoader{
 	
 
 	private static final float SCALER_STEPS_TO_INCH = 254;
@@ -18,7 +18,7 @@ public class ADCOMP {
 	
 	private static boolean draw = false;
 
-	public static VectorObject2d load(File file) throws IOException {
+	public VectorObject2d load(File file) throws IOException {
 
 		setupParams();
 		

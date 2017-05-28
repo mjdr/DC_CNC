@@ -55,9 +55,14 @@ public class ObjectViewer extends Viewer implements ActionListener{
 		menu = new JMenu("Edit");
 		menuBar.add(menu);
 		
-		item = new JMenuItem("Import");
+		item = new JMenuItem("Import ADCOMP (Eagle)");
 		item.addActionListener(this);
-		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+		menu.add(item);
+		item = new JMenuItem("Import HPGL       (KiCad)");
+		item.addActionListener(this);
+		menu.add(item);
+		item = new JMenuItem("Import Image");
+		item.addActionListener(this);
 		menu.add(item);
 		item = new JMenuItem("Last import");
 		item.addActionListener(this);
@@ -121,13 +126,14 @@ public class ObjectViewer extends Viewer implements ActionListener{
 		controller.updateSelectedObject(x, y);
 		controller.selectObject();
 	}
-	private void importFile(){
+	private void importFile(FileType type){
 		
+		fileChooser.setDialogTitle("Open " + type.toString() + " file");
 		if(fileChooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) return;
 		
 		File file = fileChooser.getSelectedFile();
 		try {
-			controller.importFile(file);
+			controller.importFile(file, type);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Import error: " + e.getMessage());
 		}
@@ -191,8 +197,14 @@ public class ObjectViewer extends Viewer implements ActionListener{
 			case "Close":
 				
 				break;
-			case "Import":
-				importFile();
+			case "Import ADCOMP (Eagle)":
+				importFile(FileType.ADCOMP);
+				break;
+			case "Import HPGL       (KiCad)":
+				importFile(FileType.HPGL);
+				break;
+			case "Import Image":
+				importFile(FileType.BIN_IMAGE);
 				break;
 			case "Last import":
 				importLastFile();

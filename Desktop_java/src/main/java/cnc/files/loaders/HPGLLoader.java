@@ -1,6 +1,5 @@
-package cnc.files.kicad;
+package cnc.files.loaders;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,14 +12,14 @@ import cnc.commands.Builder;
 import cnc.commands.Command;
 import cnc.objects2d.VectorObject2d;
 import cnc.plotUtils.Figures;
-import cnc.tools.Optimizer;
+import cnc.tools.opt.Optimizer;
 
-public class HPGL {
+public class HPGLLoader extends ObjectLoader{
 	
 	private static final float MAGIC_KOEF = 1f/40;
 	private static Point2D.Float currentPosition = new Point2D.Float();
 	
-	public static VectorObject2d load(File file) throws IOException {
+	public VectorObject2d load(File file) throws IOException {
 		
 		currentPosition.setLocation(0, 0);
 		
@@ -68,7 +67,7 @@ public class HPGL {
 			builder.commands(Figures.circle(currentPosition, Integer.parseInt(command[1]) * MAGIC_KOEF));
 		
 		else
-			System.out.println("C: " + Arrays.toString(command));
+			System.out.println("HPGLLoader:[Command not defiend!]: " + Arrays.toString(command));
 	}
 	
 	

@@ -66,7 +66,12 @@ public abstract class Object2d {
 
 		List<Command> commands = getRawCommands();
 		boolean draw = false;
-		for (Command c : commands)
+		Point2D.Float curr = new Point2D.Float(0, 0);
+		for (Command c : commands){
+			if (c instanceof Move){
+				Move m = (Move) c;
+				curr.setLocation(m.x, m.y);
+			}
 			if (c instanceof Move && draw) {
 				Move m = (Move) c;
 
@@ -80,9 +85,21 @@ public abstract class Object2d {
 					maxY = m.y;
 
 			}
+			
 			else if(c instanceof Draw){
 				draw = ((Draw) c).getValue();
+				if(draw){
+					if (curr.x < minX)
+						minX = curr.x;
+					if (curr.x > maxX)
+						maxX = curr.x;
+					if (curr.y < minY)
+						minY = curr.y;
+					if (curr.y > maxY)
+						maxY = curr.y;
+				}
 			}
+		}
 		bound.x = minX;
 		bound.y = minY;
 		bound.width = maxX - minX;

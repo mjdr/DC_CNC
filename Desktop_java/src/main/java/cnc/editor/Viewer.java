@@ -82,6 +82,7 @@ public abstract class Viewer extends JComponent {
 	}
 	protected void drawCommands(Graphics2D g2d){
 		float cx = 0, cy = 0;
+		float r = drawerSize * pixelPerMM/2;
 		boolean draw = false;
 		for (Command c : commands) {
 
@@ -97,6 +98,8 @@ public abstract class Viewer extends JComponent {
 				cy = m.y;
 			} else if (c instanceof Draw) {
 				draw = ((Draw) c).getValue();
+				if(draw)
+					drawPoint(g2d,drawerSize * pixelPerMM/2,cx * pixelPerMM, S_HEIGHT - cy * pixelPerMM);
 			} else throw new RuntimeException("Class " + c.getClass().getName() + " not defined!");
 
 		}
@@ -156,6 +159,9 @@ public abstract class Viewer extends JComponent {
 			g.fillOval((int)(cx - r), (int)(cy - r), (int)(2*r), (int)(2*r));
 
 		}
+	}
+	private void drawPoint(Graphics2D g,float r, float x,float y){
+		g.fillOval((int)(x - r), (int)(y - r), (int)(2*r), (int)(2*r));
 		
 	}
 	protected void drawAllBounds(Graphics2D g2d, Object2d object2d){
