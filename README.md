@@ -3,7 +3,7 @@ Arduino program for control cnc with dc motors and rotation encoders<br>
 
 
 # Comunication protocol:
-### Speed: 9600 bot
+### Speed: 115200 bot
 ### Package: 
 	[[type] [x] [y] [z] [check_sum]] 
 - int type - type of package 
